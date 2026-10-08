@@ -26,15 +26,15 @@ export function AppHeader() {
             <form className="search-bar" id="search-form" role="search">
                 <Icon className="search-icon" svg={icons.search} />
                 <label className="sr-only" htmlFor="search-input">
-                    Search music
+                    Pesquisar músicas
                 </label>
                 <input
                     autoCapitalize="off"
                     autoComplete="off"
                     autoCorrect="off"
                     id="search-input"
-                    placeholder="Search music"
-                    spellcheck={false}
+                    placeholder="Pesquisar músicas, artistas..."
+                    spellCheck={false}
                     type="search"
                 />
                 <button
