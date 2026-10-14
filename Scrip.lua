@@ -1,4 +1,4 @@
--- OFFBATATA - Mobile Hack Menu UI & Floating Button
+-- OFFBATATA - Mobile Hack Menu UI (Updated Multipliers)
 local CoreGui = game:GetService("CoreGui")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
@@ -136,18 +136,18 @@ UserInputService.InputEnded:Connect(function(input)
     end
 end)
 
--- Hack Features Implementation
-createToggle("Velocidade (WalkSpeed)", function(state)
+-- Hack Features Implementation (10x Speed = 160, 5x Jump = 250)
+createToggle("Velocidade 10x (160)", function(state)
     local char = localPlayer.Character
     if char and char:FindFirstChild("Humanoid") then
-        char.Humanoid.WalkSpeed = state and 60 or 16
+        char.Humanoid.WalkSpeed = state and 160 or 16
     end
 end)
 
-createToggle("Super Pulo (JumpPower)", function(state)
+createToggle("Super Pulo 5x (250)", function(state)
     local char = localPlayer.Character
     if char and char:FindFirstChild("Humanoid") then
-        char.Humanoid.JumpPower = state and 120 or 50
+        char.Humanoid.JumpPower = state and 250 or 50
     end
 end)
 
@@ -171,16 +171,34 @@ createToggle("ESP Jogadores", function(state)
     end
 end)
 
-createToggle("Noclip (Atravessar Paredes)", function(state)
-    RunService.Stepped:Connect(function()
-        if state and localPlayer.Character then
-            for _, part in ipairs(localPlayer.Character:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    part.CanCollide = false
+-- True Noclip (Removes physics collision on all parts continuously)
+local noclipConnection = nil
+createToggle("Noclip (Sem Física nas Paredes)", function(state)
+    if state then
+        noclipConnection = RunService.Stepped:Connect(function()
+            local char = localPlayer.Character
+            if char then
+                for _, part in ipairs(char:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = false
+                    end
+                end
+            end
+        end)
+    else
+        if noclipConnection then
+            noclipConnection:Disconnect()
+            noclipConnection = nil
+        end
+        local char = localPlayer.Character
+        if char then
+            for _, part in ipairs(char:GetDescendants()) do
+                if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+                    part.CanCollide = true
                 end
             end
         end
-    end)
+    end
 end)
 
-print("OFFBATATA Mod Menu carregado com sucesso!")
+print("OFFBATATA Mod Menu atualizado carregado com sucesso!")
